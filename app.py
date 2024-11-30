@@ -1,5 +1,6 @@
 # app.py
 from fastapi import FastAPI, HTTPException, UploadFile, File
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 import pickle
 import numpy as np
@@ -87,17 +88,33 @@ async def retrain_model(file: UploadFile = File(...)):
     # Train the model using the new data
     model, history = train_model(X_train, y_train, X_test, y_test, scaler)
     
-    # Save the updated model and scaler
-    model.save("data/models/diabetes_model_updated.h5")
+    # Save the retrained model and scaler
+    model_path = "data/models/diabetes_model_retrained.h5"
+    model.save(model_path)
     with open("data/scaler/scaler.pkl", "wb") as f:
         pickle.dump(scaler, f)
         
     return {
         "message": "Model retrained successfully!",
         "accuracy": history.history["accuracy"][-1],
-        "val_accuracy": history.history["val_accuracy"][-1]
+        "val_accuracy": history.history["val_accuracy"][-1],
+        "download_url": f"https://diabetes-prediction-gj1e.onrender.com/download_model/{model_path}"
     }
 
+@app.get("/download_model/{model_path:path}")
+async def download_model(model_path: str):
+    """
+    Endpoint to download the retrained model.
+    """
+    try:
+        return FileResponse(
+            path=model_path,
+            filename=model_path.split("/")[-1],
+            media_type="application/octet-stream"
+        )
+    except Exception as e:
+        raise HTTPException(status_code=404, detail=f"Model file not found: {str(e)}")
+    
 @app.get("/")
 def read_root():
     return {"message": "Welcome to the Diabetes Prediction API!"}
