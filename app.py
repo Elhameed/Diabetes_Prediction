@@ -1,8 +1,10 @@
 # app.py
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, UploadFile, File
 from pydantic import BaseModel
 import pickle
 import numpy as np
+import pandas as pd
+import io
 from src.preprocessing import preprocess_data
 from src.prediction import predict
 from src.model import train_model
@@ -52,37 +54,49 @@ def make_prediction(data: DiabetesData):
     }
 
 @app.post("/retrain/")
-def retrain_model(file_path: str):
+async def retrain_model(file: UploadFile = File(...)):
     """
-    Retrain the model with the new data provided.
+    Retrain the model with new data uploaded as a CSV file.
     """
+    # Check if the uploaded file is a CSV
+    if not file.filename.endswith('.csv'):
+        raise HTTPException(status_code=400, detail="Only CSV files are supported.")
+    
+    # Read the uploaded CSV file into a DataFrame
+    contents = await file.read()
     try:
-        # Preprocess the new data
-        X_train, X_test, y_train, y_test, updated_scaler = preprocess_data(file_path)
-        
-        # Train the model
-        updated_model, history = train_model(X_train, y_train, X_test, y_test, updated_scaler)
-        
-        # Save the updated model and scaler
-        with open('diabetes_model.pkl', 'wb') as f:
-            pickle.dump(updated_model, f)
-        
-        with open("scaler.pkl", 'wb') as f:
-            pickle.dump(updated_scaler, f)
-        
-        # Update in-memory references
-        global model_pickle, scaler
-        model_pickle = updated_model
-        scaler = updated_scaler
-        
-        return {
-            "message": "Model retrained successfully!",
-            "accuracy": history.history["accuracy"][-1],
-            "val_accuracy": history.history["val_accuracy"][-1]
-        }
-
+        data = pd.read_csv(io.BytesIO(contents))
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=400, detail=f"Error reading the CSV file: {str(e)}")
+    
+    # Validate columns in the uploaded data
+    required_columns = [
+        "Pregnancies", "Glucose", "BloodPressure", "SkinThickness",
+        "Insulin", "BMI", "DiabetesPedigreeFunction", "Age", "Outcome"
+    ]
+    if not all(col in data.columns for col in required_columns):
+        raise HTTPException(status_code=400, detail="Uploaded data must contain all required columns.")
+    
+    # Save the uploaded data to a temporary CSV file
+    temp_file_path = "data/temp_retrain_data.csv"
+    data.to_csv(temp_file_path, index=False)
+    
+    # Preprocess the new data
+    X_train, X_test, y_train, y_test, scaler = preprocess_data(file_path=temp_file_path)
+    
+    # Train the model using the new data
+    model, history = train_model(X_train, y_train, X_test, y_test, scaler)
+    
+    # Save the updated model and scaler
+    model.save("data/models/diabetes_model_updated.h5")
+    with open("data/scaler/scaler.pkl", "wb") as f:
+        pickle.dump(scaler, f)
+        
+    return {
+        "message": "Model retrained successfully!",
+        "accuracy": history.history["accuracy"][-1],
+        "val_accuracy": history.history["val_accuracy"][-1]
+    }
 
 @app.get("/")
 def read_root():
