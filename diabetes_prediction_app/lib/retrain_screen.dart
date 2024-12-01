@@ -71,6 +71,18 @@ class _RetrainScreenState extends State<RetrainScreen> {
         padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: [
+            Text(
+                'Upload New Data',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 8),
+              Text(
+                'Upload a CSV file containing the new training data.',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+              ),
+              SizedBox(height: 20),
             // File upload section
             ElevatedButton(
               style: ElevatedButton.styleFrom(
@@ -81,7 +93,7 @@ class _RetrainScreenState extends State<RetrainScreen> {
                 ),
               ),
               onPressed: _pickFile,
-              child: Text('Upload CSV File', style: TextStyle(fontSize: 18)),
+              child: Text('Upload CSV File', style: TextStyle(fontSize: 18, color: Colors.white)),
             ),
             if (selectedFile != null)
               Padding(
@@ -106,7 +118,7 @@ class _RetrainScreenState extends State<RetrainScreen> {
                   ),
                 ),
                 onPressed: _retrainModel,
-                child: Text('Retrain Model', style: TextStyle(fontSize: 18)),
+                child: Text('Retrain Model', style: TextStyle(fontSize: 18, color: Colors.white)),
               ),
             SizedBox(height: 20),
 
@@ -141,7 +153,13 @@ class _RetrainScreenState extends State<RetrainScreen> {
                           // Opens the download URL in the browser
                           launchUrl(Uri.parse(downloadUrl!));
                         },
-                        child: Text('Download Retrained Model', style: TextStyle(fontSize: 18)),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20), // Add horizontal padding here
+                          child: Text(
+                            'Download Retrained Model',
+                            style: TextStyle(fontSize: 18, color: Colors.white),
+                          ),
+                        ),
                       ),
                   ],
                 ),

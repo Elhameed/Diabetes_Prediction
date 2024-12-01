@@ -40,8 +40,15 @@ class _PredictionScreenState extends State<PredictionScreen> {
           "age": double.parse(_ageController.text),
         });
 
+        double predictionProbability = response['prediction_probability'];
+
         setState(() {
-          result = 'Prediction: ${response['prediction']} (Probability: ${response['prediction_probability']})';
+          // Logic for handling different responses based on prediction probability
+          if (predictionProbability > 0.5) {
+            result = 'The model predicts that the patient is likely to have diabetes with ${predictionProbability * 100}% confidence.';
+          } else {
+            result = 'The model predicts that the patient is unlikely to have diabetes with ${predictionProbability * 100}% confidence.';
+          }
         });
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
@@ -96,7 +103,7 @@ class _PredictionScreenState extends State<PredictionScreen> {
                     padding: EdgeInsets.symmetric(vertical: 15),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                   ),
-                  child: Text('Make Prediction', style: TextStyle(fontSize: 18)),
+                  child: Text('Make Prediction', style: TextStyle(fontSize: 18, color: Colors.white)),
                 ),
               SizedBox(height: 20),
 
