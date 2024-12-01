@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -11,6 +12,7 @@ class _VisualizationsScreenState extends State<VisualizationsScreen> {
   String selectedFeature2 = "Glucose";
   bool showSecondFeature = false;
   String imageUrl = "";
+  String interpretation = "";
 
   final List<String> features = [
     "Pregnancies",
@@ -32,8 +34,10 @@ class _VisualizationsScreenState extends State<VisualizationsScreen> {
     try {
       final response = await http.get(uri);
       if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body);
         setState(() {
-          imageUrl = uri.toString();
+          imageUrl = jsonResponse['image'];
+          interpretation = jsonResponse['interpretation'];
         });
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error fetching visualization!")));
@@ -97,8 +101,16 @@ class _VisualizationsScreenState extends State<VisualizationsScreen> {
               child: Text("Generate Visualization"),
             ),
             if (imageUrl.isNotEmpty)
-              Expanded(
-                child: Image.network(imageUrl),
+              Column(
+                children: [
+                  Image.network(imageUrl),
+                  SizedBox(height: 10),
+                  Text(
+                    interpretation,
+                    style: TextStyle(fontSize: 16, color: Colors.grey[700]),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ),
           ],
         ),

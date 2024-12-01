@@ -130,7 +130,7 @@ async def download_model(model_path: str):
 @app.get("/visualize/")
 def visualize_data(feature1: str, feature2: str = None):
     """
-    Generate visualizations for selected features.
+    Generate visualizations for selected features with interpretations.
     """
     # Load the dataset
     try:
@@ -147,9 +147,18 @@ def visualize_data(feature1: str, feature2: str = None):
     if feature2:
         sns.scatterplot(data=data, x=feature1, y=feature2, hue='Outcome')
         plt.title(f'{feature1} vs {feature2}')
+        interpretation = (
+            f"This scatter plot shows the relationship between {feature1} and {feature2}. "
+            "Different colors represent diabetes outcomes (0 = No Diabetes, 1 = Diabetes). "
+            f"Analyze how {feature1} correlates with {feature2} across these outcomes."
+        )
     else:
         sns.histplot(data=data, x=feature1, hue='Outcome', kde=True, bins=30)
         plt.title(f'Distribution of {feature1}')
+        interpretation = (
+            f"This histogram shows the distribution of {feature1} across the dataset. "
+            "The color distinction highlights the diabetes outcomes, helping to identify patterns or thresholds."
+        )
     
     plt.xlabel(feature1)
     if feature2:
@@ -163,7 +172,11 @@ def visualize_data(feature1: str, feature2: str = None):
     plt.close()
     img_stream.seek(0)
     
-    return StreamingResponse(img_stream, media_type="image/png")
+    # Return both the plot and the interpretation
+    return {
+        "image": StreamingResponse(img_stream, media_type="image/png"),
+        "interpretation": interpretation,
+    }
     
 @app.get("/")
 def read_root():
