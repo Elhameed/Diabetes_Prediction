@@ -36,7 +36,7 @@ class _VisualizationsScreenState extends State<VisualizationsScreen> {
       if (response.statusCode == 200) {
         final jsonResponse = jsonDecode(response.body);
         setState(() {
-          imageUrl = jsonResponse['image'];
+          imageUrl = jsonResponse['image_url'];
           interpretation = jsonResponse['interpretation'];
         });
       } else {
