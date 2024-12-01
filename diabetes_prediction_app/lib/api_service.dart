@@ -24,7 +24,7 @@ class ApiService {
   // Retrain model function
   Future<Map<String, dynamic>> retrainModel(List<int> fileBytes) async {
     final request = http.MultipartRequest('POST', Uri.parse('$baseUrl/retrain/'));
-    request.files.add(http.MultipartFile.fromBytes('file', fileBytes, filename: 'retrain_data.csv'));
+    request.files.add(http.MultipartFile.fromBytes('file', fileBytes, filename: 'data/diabetes.csv'));
 
     final response = await request.send();
 
