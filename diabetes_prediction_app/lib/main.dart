@@ -3,6 +3,7 @@ import 'home.dart';
 import 'prediction_screen.dart';
 import 'retrain_screen.dart';
 import 'main_menu.dart'; 
+import 'visualizations_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
         scaffoldBackgroundColor: Colors.white, // Set global background to white
         appBarTheme: AppBarTheme(
-          backgroundColor: Colors.blue,
+          backgroundColor: Colors.white,
         ),
       ),
       initialRoute: '/',
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
         '/prediction': (context) => PredictionScreen(), // Prediction screen
         '/retrain': (context) => RetrainScreen(), // Retraining screen
         '/main-menu': (context) => MainMenuScreen(), // Main menu screen 
+        '/visualization': (context) => VisualizationsScreen(), // Visualization screen
       },
     );
   }
