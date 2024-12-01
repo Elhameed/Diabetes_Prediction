@@ -1,4 +1,4 @@
-# Diabetes Prediction & Retraining System
+# Diabetes Prediction & Retraining System - HealthLens
 
 ![App Screenshot](https://github.com/Elhameed/Diabetes_Prediction/blob/main/homepage_screenshot.png)
 
