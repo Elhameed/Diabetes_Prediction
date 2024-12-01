@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'prediction_screen.dart';
-import 'retrain_screen.dart'; 
+import 'retrain_screen.dart';
 
 class MainMenuScreen extends StatelessWidget {
   @override
@@ -25,95 +25,91 @@ class MainMenuScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
-              elevation: 5,
-              child: Container(
-                padding: EdgeInsets.all(20),
-                child: Column(
-                  children: [
-                    Icon(Icons.health_and_safety, color: Colors.blue, size: 50),
-                    SizedBox(height: 10),
-                    Text(
-                      'Predict Diabetes',
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Enter patient data to predict the likelihood of diabetes.',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 16, color: Colors.grey[700]),
-                    ),
-                    SizedBox(height: 20),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
-                        padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => PredictionScreen()),
-                        );
-                      },
-                      child: Text('Start Prediction'),
-                    ),
-                  ],
-                ),
-              ),
+            _buildCard(
+              context,
+              icon: Icons.health_and_safety,
+              iconColor: Colors.blue,
+              title: 'Predict Diabetes',
+              description: 'Enter patient data to predict the likelihood of diabetes.',
+              buttonLabel: 'Start Prediction',
+              buttonColor: Colors.blue,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => PredictionScreen()),
+                );
+              },
             ),
             SizedBox(height: 30),
-            Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
+            _buildCard(
+              context,
+              icon: Icons.refresh,
+              iconColor: Colors.green,
+              title: 'Retrain Model',
+              description: 'Use new data to improve model accuracy.',
+              buttonLabel: 'Retrain Now',
+              buttonColor: Colors.green,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => RetrainScreen()),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCard(
+    BuildContext context, {
+    required IconData icon,
+    required Color iconColor,
+    required String title,
+    required String description,
+    required String buttonLabel,
+    required Color buttonColor,
+    required VoidCallback onPressed,
+  }) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      elevation: 5,
+      child: Container(
+        width: double.infinity, // Make cards stretch to fill width
+        padding: EdgeInsets.all(20),
+        child: Column(
+          children: [
+            Icon(icon, color: iconColor, size: 50),
+            SizedBox(height: 10),
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
               ),
-              elevation: 5,
-              child: Container(
-                padding: EdgeInsets.all(20),
-                child: Column(
-                  children: [
-                    Icon(Icons.refresh, color: Colors.green, size: 50),
-                    SizedBox(height: 10),
-                    Text(
-                      'Retrain Model',
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      'Use new data to improve model accuracy.',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 16, color: Colors.grey[700]),
-                    ),
-                    SizedBox(height: 20),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green,
-                        padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => RetrainScreen()),
-                        );
-                      },
-                      child: Text('Retrain Now'),
-                    ),
-                  ],
+            ),
+            SizedBox(height: 10),
+            Text(
+              description,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 16, color: Colors.grey[700]),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: buttonColor,
+                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25),
                 ),
+              ),
+              onPressed: onPressed,
+              child: Text(
+                buttonLabel,
+                style: TextStyle(color: Colors.white), // Set text color to white
               ),
             ),
           ],
