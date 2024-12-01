@@ -1,8 +1,7 @@
 # app.py
 from fastapi import FastAPI, HTTPException, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse, StreamingResponse, JSONResponse
-from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse, StreamingResponse
 from pydantic import BaseModel
 import pickle
 import numpy as np
@@ -25,9 +24,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# Mount the static files directory
-app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # Load the model
 with open('models/diabetes_model.pkl', 'rb') as f:
@@ -176,15 +172,11 @@ def visualize_data(feature1: str, feature2: str = None):
     plt.close()
     img_stream.seek(0)
     
-    # Return the image URL and interpretation as a JSON response
-    image_path = "visualization.png"
-    with open(image_path, "wb") as f:
-        f.write(img_stream.getbuffer())
-    
-    return JSONResponse(content={
-        "image_url": f"https://diabetes-prediction-gj1e.onrender.com/static/{image_path}",
-        "interpretation": interpretation
-    })
+    # Return the image and interpretation
+    return {
+        "interpretation": interpretation,
+        "plot_url": StreamingResponse(img_stream, media_type="image/png")
+    }
     
 @app.get("/")
 def read_root():
