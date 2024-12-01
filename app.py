@@ -1,7 +1,7 @@
 # app.py
 from fastapi import FastAPI, HTTPException, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, StreamingResponse
 from pydantic import BaseModel
 import pickle
 import numpy as np
@@ -10,6 +10,8 @@ import io
 from src.preprocessing import preprocess_data
 from src.prediction import predict
 from src.model import train_model
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 # Initialize FastAPI app
 app = FastAPI()
@@ -124,6 +126,44 @@ async def download_model(model_path: str):
         )
     except Exception as e:
         raise HTTPException(status_code=404, detail=f"Model file not found: {str(e)}")
+    
+@app.get("/visualize/")
+def visualize_data(feature1: str, feature2: str = None):
+    """
+    Generate visualizations for selected features.
+    """
+    # Load the dataset
+    try:
+        data = pd.read_csv("data/diabetes.csv")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error loading dataset: {str(e)}")
+    
+    # Validate feature selection
+    if feature1 not in data.columns or (feature2 and feature2 not in data.columns):
+        raise HTTPException(status_code=400, detail="Invalid features selected for visualization.")
+    
+    # Create the plot
+    plt.figure(figsize=(10, 6))
+    if feature2:
+        sns.scatterplot(data=data, x=feature1, y=feature2, hue='Outcome')
+        plt.title(f'{feature1} vs {feature2}')
+    else:
+        sns.histplot(data=data, x=feature1, hue='Outcome', kde=True, bins=30)
+        plt.title(f'Distribution of {feature1}')
+    
+    plt.xlabel(feature1)
+    if feature2:
+        plt.ylabel(feature2)
+    else:
+        plt.ylabel("Count")
+    
+    # Save the plot to a BytesIO stream
+    img_stream = io.BytesIO()
+    plt.savefig(img_stream, format='png')
+    plt.close()
+    img_stream.seek(0)
+    
+    return StreamingResponse(img_stream, media_type="image/png")
     
 @app.get("/")
 def read_root():

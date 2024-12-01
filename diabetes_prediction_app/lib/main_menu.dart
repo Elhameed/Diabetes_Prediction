@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'prediction_screen.dart';
 import 'retrain_screen.dart';
+import 'visualizations_screen.dart'; // Import the VisualizationsScreen
 
 class MainMenuScreen extends StatelessWidget {
   @override
@@ -53,6 +54,22 @@ class MainMenuScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => RetrainScreen()),
+                );
+              },
+            ),
+            SizedBox(height: 30),
+            _buildCard(
+              context,
+              icon: Icons.bar_chart,
+              iconColor: Colors.purple,
+              title: 'Visualizations',
+              description: 'Explore insightful visualizations of the dataset.',
+              buttonLabel: 'View Visualizations',
+              buttonColor: Colors.purple,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => VisualizationsScreen()),
                 );
               },
             ),
