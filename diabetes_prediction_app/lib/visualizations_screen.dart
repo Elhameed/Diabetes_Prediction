@@ -34,10 +34,10 @@ class _VisualizationsScreenState extends State<VisualizationsScreen> {
     try {
       final response = await http.get(uri);
       if (response.statusCode == 200) {
-        final jsonResponse = jsonDecode(response.body);
+        final jsonData = json.decode(response.body);
         setState(() {
-          imageUrl = jsonResponse['image_url'];
-          interpretation = jsonResponse['interpretation'];
+          imageUrl = jsonData['plot_url'];
+          interpretation = jsonData['interpretation'];
         });
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error fetching visualization!")));
@@ -101,16 +101,18 @@ class _VisualizationsScreenState extends State<VisualizationsScreen> {
               child: Text("Generate Visualization"),
             ),
             if (imageUrl.isNotEmpty)
-              Column(
-                children: [
-                  Image.network(imageUrl),
-                  SizedBox(height: 10),
-                  Text(
-                    interpretation,
-                    style: TextStyle(fontSize: 16, color: Colors.grey[700]),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Image.network(imageUrl),
+                    SizedBox(height: 10),
+                    Text(
+                      interpretation,
+                      style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic),
+                    ),
+                  ],
+                ),
               ),
           ],
         ),
