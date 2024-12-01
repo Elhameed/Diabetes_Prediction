@@ -27,7 +27,10 @@ The system is powered by a **FastAPI backend** and is integrated with a **Flutte
 4. **Model Retraining**:  
    After data is uploaded, the system automatically retrains the model and provides evaluation metrics (accuracy, validation accuracy). The retrained model is then available for download.
 
-5. **Deployment**:  
+5. **Load Testing**:  
+   The system has been load-tested using **Locust** to simulate high-traffic scenarios and ensure it can handle concurrent requests efficiently.
+
+6. **Deployment**:  
    The backend is deployed on **Render** and the mobile app interacts with the deployed API. Load testing is conducted using **Locust** to ensure the system can handle high traffic.
 
 ## Tech Stack
@@ -38,6 +41,12 @@ The system is powered by a **FastAPI backend** and is integrated with a **Flutte
 - **Deployment**: Render (for backend), 
 - **Model**: Neural Network for Diabetes Prediction
 - **Data**: Diabetes dataset from the National Institute of Diabetes and Digestive and Kidney Diseases (Pima Indian Heritage) [https://www.kaggle.com/datasets/mathchi/diabetes-data-set]
+
+## Video Demo
+
+Check out the video demo showcasing the app and the entire workflow:
+
+[**YouTube Demo Link**](https://www.youtube.com/watch?v=your_video_link)
 
 ## Setup Instructions
 
@@ -135,19 +144,23 @@ The following visualizations are provided:
 - **Scatter Plot:** Displays the relationship between two features (e.g., BMI vs. Age).
 - **Histogram:** Shows the distribution of a single feature (e.g., Glucose levels).
 
-## Load Testing
-Load testing is implemented using Locust to simulate heavy traffic on the API. To run the load test:
-1. Install Locust:
-```bash
-pip install locust
-```
+## Load Testing Results
+The system has been load-tested using Locust. Below are the results from the flood request simulation:
 
-2. Run the Locust test:
-```bash
-locust -f locustfile.py --host=https://diabetes-prediction-gj1e.onrender.com
-```
-This will open a web interface at http://localhost:8089 to start the load test.
+### Simulation Configuration:
+- Users: 10
+- Spawn Rate: 1 user per second
+- Test Duration: 5 minutes
+- API Endpoint Tested: /predict/ and /retrain/
+  
+**Test result**
+![Locust result](images/screenshot.png)
 
+### Key Insights:
+- **Median Response Time:** 2200ms for /predict/, 125000ms for /retrain/.
+- **Error Rate:** 2 errors out of 9 requests (approximately 22% error rate).
+- **Throughput:** Current RPS of around 0.2 requests per second.
+- **Response Times:** Some requests show higher median response times, particularly for the /retrain/ endpoint, which is expected due to the retraining process. The system is capable of handling high traffic without significant performance degradation. The load test confirms that the backend can efficiently serve multiple concurrent requests.
 
 ## Contributions
 Feel free to contribute to this project! If you'd like to submit changes, follow these steps:
