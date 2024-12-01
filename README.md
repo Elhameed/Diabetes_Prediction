@@ -1,6 +1,6 @@
 # Diabetes Prediction & Retraining System
 
-![App Screenshot](https://github.com/Elhameed/Diabetes_Prediction/blob/main/Locust_test_result.png)
+![App Screenshot](https://github.com/Elhameed/Diabetes_Prediction/blob/main/homepage_screenshot.png)
 
 ## Overview
 
