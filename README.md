@@ -70,6 +70,7 @@ pip install -r requirements.txt
 uvicorn app:app --reload
 ```
 Your API should now be running on `http://127.0.0.1:8000`
+Yu can also access the deployed link at https://diabetes-prediction-gj1e.onrender.com
 
 ### 5.  Flutter Mobile App Setup
 1. Install Flutter SDK from Flutter website.
