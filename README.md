@@ -74,10 +74,10 @@ Your API should now be running on `http://127.0.0.1:8000`
 ### 5.  Flutter Mobile App Setup
 1. Install Flutter SDK from Flutter website.
 2. Navigate the Flutter app from the repository.
-   ```bash
-   cd diabetes_prediction_app
-   ```
-3. Run the app on an emulator or connected device:
+```bash
+cd diabetes_prediction_app
+```
+4. Run the app on an emulator or connected device:
 ```bash
 flutter run
 ```
@@ -142,7 +142,7 @@ pip install locust
 
 2. Run the Locust test:
 ```bash
-locust -f locustfile.py
+locust -f locustfile.py --host=https://diabetes-prediction-gj1e.onrender.com
 ```
 This will open a web interface at http://localhost:8089 to start the load test.
 
