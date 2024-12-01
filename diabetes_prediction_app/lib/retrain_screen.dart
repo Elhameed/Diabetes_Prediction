@@ -58,39 +58,94 @@ class _RetrainScreenState extends State<RetrainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Retrain Model')),
+      appBar: AppBar(
+        title: Text('Retrain Model'),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: ListView(
           children: [
+            // File upload section
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                padding: EdgeInsets.symmetric(vertical: 15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25),
+                ),
+              ),
               onPressed: _pickFile,
-              child: Text('Upload CSV File'),
+              child: Text('Upload CSV File', style: TextStyle(fontSize: 18)),
             ),
-            if (selectedFile != null) 
-              Text('File Selected: Yes', style: TextStyle(color: Colors.green)),
-            SizedBox(height: 20),
-            if (isLoading) CircularProgressIndicator(),
-            if (!isLoading)
-              ElevatedButton(
-                onPressed: _retrainModel,
-                child: Text('Retrain Model'),
+            if (selectedFile != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Text(
+                  'File Selected: Yes',
+                  style: TextStyle(color: Colors.green, fontSize: 16),
+                ),
               ),
             SizedBox(height: 20),
-            if (retrainMessage.isNotEmpty) ...[
-              Text('Message: $retrainMessage', style: TextStyle(fontWeight: FontWeight.bold)),
-              Text('Accuracy: ${accuracy?.toStringAsFixed(2) ?? 'N/A'}'),
-              Text('Validation Accuracy: ${valAccuracy?.toStringAsFixed(2) ?? 'N/A'}'),
-              if (downloadUrl != null)
-                TextButton(
-                  onPressed: () {
-                    // Opens the download URL in the browser
-                    launchUrl(Uri.parse(downloadUrl!));
-                  },
-                  child: Text('Download Retrained Model'),
+
+            // Loading and retrain button
+            if (isLoading) 
+              Center(child: CircularProgressIndicator()),
+            if (!isLoading)
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  padding: EdgeInsets.symmetric(vertical: 15),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
                 ),
-            ],
+                onPressed: _retrainModel,
+                child: Text('Retrain Model', style: TextStyle(fontSize: 18)),
+              ),
+            SizedBox(height: 20),
+
+            // Results section
+            if (retrainMessage.isNotEmpty)
+              Container(
+                padding: EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.blue[50],
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Message:', style: TextStyle(fontWeight: FontWeight.bold)),
+                    SizedBox(height: 5),
+                    Text(retrainMessage, style: TextStyle(fontSize: 16)),
+                    SizedBox(height: 15),
+                    Text('Accuracy: ${accuracy?.toStringAsFixed(2) ?? 'N/A'}'),
+                    Text('Validation Accuracy: ${valAccuracy?.toStringAsFixed(2) ?? 'N/A'}'),
+                    SizedBox(height: 20),
+                    if (downloadUrl != null)
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green,
+                          padding: EdgeInsets.symmetric(vertical: 15),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                        ),
+                        onPressed: () {
+                          // Opens the download URL in the browser
+                          launchUrl(Uri.parse(downloadUrl!));
+                        },
+                        child: Text('Download Retrained Model', style: TextStyle(fontSize: 18)),
+                      ),
+                  ],
+                ),
+              ),
           ],
         ),
       ),

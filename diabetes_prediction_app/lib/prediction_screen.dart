@@ -56,73 +56,95 @@ class _PredictionScreenState extends State<PredictionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Prediction')),
+      appBar: AppBar(
+        title: Text('Diabetes Prediction'),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        elevation: 0,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.home, color: Colors.black),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: ListView(
             children: [
-              TextFormField(
-                controller: _pregnanciesController,
-                decoration: InputDecoration(labelText: 'Pregnancies'),
-                keyboardType: TextInputType.number,
-                validator: (value) => value == null || value.isEmpty ? 'Enter a value' : null,
-              ),
-              TextFormField(
-                controller: _glucoseController,
-                decoration: InputDecoration(labelText: 'Glucose'),
-                keyboardType: TextInputType.number,
-                validator: (value) => value == null || value.isEmpty ? 'Enter a value' : null,
-              ),
-              TextFormField(
-                controller: _bloodPressureController,
-                decoration: InputDecoration(labelText: 'Blood Pressure'),
-                keyboardType: TextInputType.number,
-                validator: (value) => value == null || value.isEmpty ? 'Enter a value' : null,
-              ),
-              TextFormField(
-                controller: _skinThicknessController,
-                decoration: InputDecoration(labelText: 'Skin Thickness'),
-                keyboardType: TextInputType.number,
-                validator: (value) => value == null || value.isEmpty ? 'Enter a value' : null,
-              ),
-              TextFormField(
-                controller: _insulinController,
-                decoration: InputDecoration(labelText: 'Insulin'),
-                keyboardType: TextInputType.number,
-                validator: (value) => value == null || value.isEmpty ? 'Enter a value' : null,
-              ),
-              TextFormField(
-                controller: _bmiController,
-                decoration: InputDecoration(labelText: 'BMI'),
-                keyboardType: TextInputType.number,
-                validator: (value) => value == null || value.isEmpty ? 'Enter a value' : null,
-              ),
-              TextFormField(
-                controller: _diabetesPedigreeController,
-                decoration: InputDecoration(labelText: 'Diabetes Pedigree Function'),
-                keyboardType: TextInputType.number,
-                validator: (value) => value == null || value.isEmpty ? 'Enter a value' : null,
-              ),
-              TextFormField(
-                controller: _ageController,
-                decoration: InputDecoration(labelText: 'Age'),
-                keyboardType: TextInputType.number,
-                validator: (value) => value == null || value.isEmpty ? 'Enter a value' : null,
-              ),
+              _buildTextFormField(_pregnanciesController, 'Pregnancies'),
+              _buildTextFormField(_glucoseController, 'Glucose'),
+              _buildTextFormField(_bloodPressureController, 'Blood Pressure'),
+              _buildTextFormField(_skinThicknessController, 'Skin Thickness'),
+              _buildTextFormField(_insulinController, 'Insulin'),
+              _buildTextFormField(_bmiController, 'BMI'),
+              _buildTextFormField(_diabetesPedigreeController, 'Diabetes Pedigree Function'),
+              _buildTextFormField(_ageController, 'Age'),
+
               SizedBox(height: 20),
-              if (isLoading) CircularProgressIndicator(),
+              if (isLoading)
+                Center(child: CircularProgressIndicator()),
               if (!isLoading)
                 ElevatedButton(
                   onPressed: _makePrediction,
-                  child: Text('Make Prediction'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue, 
+                    padding: EdgeInsets.symmetric(vertical: 15),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                  ),
+                  child: Text('Make Prediction', style: TextStyle(fontSize: 18)),
                 ),
               SizedBox(height: 20),
-              if (result.isNotEmpty) Text(result),
+
+              if (result.isNotEmpty)
+                _buildResultBox(result),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildTextFormField(TextEditingController controller, String label) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      child: TextFormField(
+        controller: controller,
+        decoration: InputDecoration(
+          labelText: label,
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
+          contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+        ),
+        keyboardType: TextInputType.number,
+        validator: (value) => value == null || value.isEmpty ? 'Enter a value' : null,
+      ),
+    );
+  }
+
+  Widget _buildResultBox(String result) {
+    return Container(
+      padding: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.grey[200],
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Column(
+        children: [
+          Text(
+            'Prediction Result',
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 10),
+          Text(
+            result,
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 18, color: Colors.black),
+          ),
+        ],
       ),
     );
   }
