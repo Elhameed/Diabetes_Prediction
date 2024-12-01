@@ -1,5 +1,7 @@
 # Diabetes Prediction & Retraining System
 
+![App Screenshot](https://github.com/Elhameed/Diabetes_Prediction/blob/main/Locust_test_result.png)
+
 ## Overview
 
 This project implements a **Diabetes Prediction and Retraining System** using machine learning. The system allows users to:
