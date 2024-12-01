@@ -154,7 +154,7 @@ The system has been load-tested using Locust. Below are the results from the flo
 - API Endpoint Tested: /predict/ and /retrain/
   
 **Test result**
-![Locust result](images/screenshot.png)
+![Locust result](https://github.com/Elhameed/Diabetes_Prediction/blob/main/Locust_test_result.png)
 
 ### Key Insights:
 - **Median Response Time:** 2200ms for /predict/, 125000ms for /retrain/.
