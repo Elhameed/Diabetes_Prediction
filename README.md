@@ -121,7 +121,7 @@ Response
 ```bash
 {
   "prediction": 1,
-  "prediction_probability": 0.87
+  "prediction_probability": 0.690622866153717
 }
 
 ```
