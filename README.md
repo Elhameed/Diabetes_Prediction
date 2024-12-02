@@ -16,7 +16,7 @@ The system is powered by a **FastAPI backend** and is integrated with a **Flutte
 
 Check out the video demo showcasing the app and the entire workflow:
 
-[**YouTube Demo Link**](https://youtu.be/xseVvYwlcBs)
+[**YouTube Demo Link**](https://youtu.be/a7lQ261uFdI)
 
 ## Features
 
