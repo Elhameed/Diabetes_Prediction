@@ -12,6 +12,12 @@ This project implements a **Diabetes Prediction and Retraining System** using ma
 
 The system is powered by a **FastAPI backend** and is integrated with a **Flutter mobile app** for user interaction. The solution also includes a **Locust load testing** for performance evaluation.
 
+## Video Demo
+
+Check out the video demo showcasing the app and the entire workflow:
+
+[**YouTube Demo Link**](https://www.youtube.com/watch?v=your_video_link)
+
 ## Features
 
 1. **Model Prediction**:  
@@ -43,12 +49,6 @@ The system is powered by a **FastAPI backend** and is integrated with a **Flutte
 - **Deployment**: Render (for backend), 
 - **Model**: Neural Network for Diabetes Prediction
 - **Data**: Diabetes dataset from the National Institute of Diabetes and Digestive and Kidney Diseases (Pima Indian Heritage) [https://www.kaggle.com/datasets/mathchi/diabetes-data-set]
-
-## Video Demo
-
-Check out the video demo showcasing the app and the entire workflow:
-
-[**YouTube Demo Link**](https://www.youtube.com/watch?v=your_video_link)
 
 ## Setup Instructions
 
