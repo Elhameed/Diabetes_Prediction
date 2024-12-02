@@ -47,7 +47,7 @@ class _PredictionScreenState extends State<PredictionScreen> {
           if (predictionProbability > 0.5) {
             result = 'The model predicts that the patient is likely to have diabetes with ${predictionProbability * 100}% confidence.';
           } else {
-            result = 'The model predicts that the patient is unlikely to have diabetes with ${predictionProbability * 100}% confidence.';
+            result = 'The model predicts that the patient is unlikely to have diabetes with ${(1 - predictionProbability) * 100}% confidence.';
           }
         });
       } catch (e) {
