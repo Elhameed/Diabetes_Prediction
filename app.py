@@ -98,20 +98,23 @@ async def retrain_model(file: UploadFile = File(...)):
     X_train, X_test, y_train, y_test, scaler = preprocess_data(file_path=temp_file_path)
     
     # Train the model using the new data
-    model, history = train_model(X_train, y_train, X_test, y_test, scaler)
+    model, history, metrics = train_model(X_train, y_train, X_test, y_test, scaler)
     
     # Save the retrained model and scaler
     model_path = "data/models/diabetes_model_retrained.h5"
     model.save(model_path)
     with open("data/scaler/scaler.pkl", "wb") as f:
         pickle.dump(scaler, f)
-        
+    
+    # Include additional metrics in the response
     return {
         "message": "Model retrained successfully!",
-        "accuracy": history.history["accuracy"][-1],
-        "val_accuracy": history.history["val_accuracy"][-1],
+        "training_accuracy": history.history["accuracy"][-1],
+        "validation_accuracy": history.history["val_accuracy"][-1],
+        "test_metrics": metrics,  # Includes accuracy, precision, recall, and F1-score
         "download_url": f"https://diabetes-prediction-gj1e.onrender.com/download_model/{model_path}"
     }
+
 
 @app.get("/download_model/{model_path:path}")
 async def download_model(model_path: str):

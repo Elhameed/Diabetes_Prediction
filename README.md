@@ -1,4 +1,6 @@
-# Diabetes Prediction & Retraining System
+# Diabetes Prediction & Retraining System - HealthLens
+
+![App Screenshot](https://github.com/Elhameed/Diabetes_Prediction/blob/main/homepage_screenshot.png)
 
 ## Overview
 
@@ -9,6 +11,12 @@ This project implements a **Diabetes Prediction and Retraining System** using ma
 - Trigger model retraining based on uploaded data and download the updated model.
 
 The system is powered by a **FastAPI backend** and is integrated with a **Flutter mobile app** for user interaction. The solution also includes a **Locust load testing** for performance evaluation.
+
+## Video Demo
+
+Check out the video demo showcasing the app and the entire workflow:
+
+[**YouTube Demo Link**](https://youtu.be/a7lQ261uFdI)
 
 ## Features
 
@@ -41,12 +49,6 @@ The system is powered by a **FastAPI backend** and is integrated with a **Flutte
 - **Deployment**: Render (for backend), 
 - **Model**: Neural Network for Diabetes Prediction
 - **Data**: Diabetes dataset from the National Institute of Diabetes and Digestive and Kidney Diseases (Pima Indian Heritage) [https://www.kaggle.com/datasets/mathchi/diabetes-data-set]
-
-## Video Demo
-
-Check out the video demo showcasing the app and the entire workflow:
-
-[**YouTube Demo Link**](https://www.youtube.com/watch?v=your_video_link)
 
 ## Setup Instructions
 
@@ -119,7 +121,7 @@ Response
 ```bash
 {
   "prediction": 1,
-  "prediction_probability": 0.87
+  "prediction_probability": 0.690622866153717
 }
 
 ```
@@ -131,10 +133,17 @@ Upload a CSV file with the required columns (`Pregnancies`, `Glucose`, `BloodPre
 Response:
 ```bash
 {
-  "message": "Model retrained successfully!",
-  "accuracy": 0.87,
-  "val_accuracy": 0.85,
-  "download_url": "https://diabetes-prediction-gj1e.onrender.com/download_model/models/diabetes_model_retrained.h5"
+    "message": "Model retrained successfully!",
+    "training_accuracy": 0.95,
+    "validation_accuracy": 0.93,
+    "test_metrics": {
+        "accuracy": 0.91,
+        "loss": 0.25,
+        "precision": 0.88,
+        "recall": 0.90,
+        "f1_score": 0.89
+    },
+    "download_url": "https://diabetes-prediction-gj1e.onrender.com/download_model/data/models/diabetes_model_retrained.h5"
 }
 ```
 
@@ -154,7 +163,7 @@ The system has been load-tested using Locust. Below are the results from the flo
 - API Endpoint Tested: /predict/ and /retrain/
   
 **Test result**
-![Locust result](images/screenshot.png)
+![Locust result](https://github.com/Elhameed/Diabetes_Prediction/blob/main/Locust_test_result.png)
 
 ### Key Insights:
 - **Median Response Time:** 2200ms for /predict/, 125000ms for /retrain/.

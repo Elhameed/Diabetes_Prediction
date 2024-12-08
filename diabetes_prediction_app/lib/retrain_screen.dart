@@ -42,8 +42,8 @@ class _RetrainScreenState extends State<RetrainScreen> {
       var result = await apiService.retrainModel(selectedFile!);
       setState(() {
         retrainMessage = result['message'];
-        accuracy = result['accuracy'];
-        valAccuracy = result['val_accuracy'];
+        accuracy = result['test_metrics']['accuracy']; 
+        valAccuracy = result['training_accuracy'];
         downloadUrl = result['download_url'];
       });
     } catch (e) {
