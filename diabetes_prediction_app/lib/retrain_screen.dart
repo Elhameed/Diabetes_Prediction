@@ -19,11 +19,15 @@ class _RetrainScreenState extends State<RetrainScreen> {
   String? downloadUrl;
 
   Future<void> _pickFile() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.custom, allowedExtensions: ['csv']);
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['csv'],
+    );
     if (result != null) {
       setState(() {
         selectedFile = result.files.single.bytes;
       });
+      print('Selected File Bytes: ${selectedFile?.length}');
     }
   }
 

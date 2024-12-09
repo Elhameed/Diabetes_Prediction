@@ -23,57 +23,59 @@ class MainMenuScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _buildCard(
-              context,
-              icon: Icons.health_and_safety,
-              iconColor: Colors.blue,
-              title: 'Predict Diabetes',
-              description: 'Enter patient data to predict the likelihood of diabetes.',
-              buttonLabel: 'Start Prediction',
-              buttonColor: Colors.blue,
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => PredictionScreen()),
-                );
-              },
-            ),
-            SizedBox(height: 30),
-            _buildCard(
-              context,
-              icon: Icons.refresh,
-              iconColor: Colors.green,
-              title: 'Retrain Model',
-              description: 'Use new data to improve model accuracy.',
-              buttonLabel: 'Retrain Now',
-              buttonColor: Colors.green,
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => RetrainScreen()),
-                );
-              },
-            ),
-            SizedBox(height: 30),
-            _buildCard(
-              context,
-              icon: Icons.bar_chart,
-              iconColor: Colors.purple,
-              title: 'Visualizations',
-              description: 'Explore insightful visualizations of the dataset.',
-              buttonLabel: 'View Visualizations',
-              buttonColor: Colors.purple,
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => VisualizationsScreen()),
-                );
-              },
-            ),
-          ],
+        child: SingleChildScrollView( // Add scrolling
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _buildCard(
+                context,
+                icon: Icons.health_and_safety,
+                iconColor: Colors.blue,
+                title: 'Predict Diabetes',
+                description: 'Enter patient data to predict the likelihood of diabetes.',
+                buttonLabel: 'Start Prediction',
+                buttonColor: Colors.blue,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => PredictionScreen()),
+                  );
+                },
+              ),
+              SizedBox(height: 30),
+              _buildCard(
+                context,
+                icon: Icons.refresh,
+                iconColor: Colors.green,
+                title: 'Retrain Model',
+                description: 'Use new data to improve model accuracy.',
+                buttonLabel: 'Retrain Now',
+                buttonColor: Colors.green,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => RetrainScreen()),
+                  );
+                },
+              ),
+              SizedBox(height: 30),
+              _buildCard(
+                context,
+                icon: Icons.bar_chart,
+                iconColor: Colors.purple,
+                title: 'Visualizations',
+                description: 'Explore insightful visualizations of the dataset.',
+                buttonLabel: 'View Visualizations',
+                buttonColor: Colors.purple,
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => VisualizationsScreen()),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

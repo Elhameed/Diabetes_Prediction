@@ -18,6 +18,10 @@ Check out the video demo showcasing the app and the entire workflow:
 
 [**YouTube Demo Link**](https://youtu.be/a7lQ261uFdI)
 
+## APK Fie
+
+Check out the android apk file at ![**diabetes_app**](diabetes_app.apk)
+
 ## Features
 
 1. **Model Prediction**:  
